@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Batch Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 2rem;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 700px;
+            margin: auto;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .detail {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .label {
+            font-weight: bold;
+            min-width: 150px;
+        }
+        .value {
+            flex: 1;
+            margin-left: 1rem;
+            word-break: break-word;
+        }
+    
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .label {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Batch Metadata</h1>
+        <div class="detail">
+            <span class="label">UUID:</span>
+            <span class="value" id="uuidText" th:text="'0x' + ${batch.uuid}" style="cursor:pointer; color:#007BFF;" onclick="copyUUID()"></span>
+            <span id="copyMessage" style="color: green; display: none; margin-left: 10px;">Copied!</span>
+        </div>        
+        <div class="detail"><span class="label">Date of Production:</span><span class="value" th:text="${batch.dateOfProduction}"></span></div>
+        <div class="detail"><span class="label">Quantity Produced:</span><span class="value" th:text="${batch.quantityProduced}"></span></div>
+        <div class="detail"><span class="label">Arrival to Distributor:</span><span class="value" th:text="${batch.arrivalDateToDistributor}"></span></div>
+        <div class="detail"><span class="label">Producer:</span><span class="value" th:text="${batch.producer}"></span></div>
+        <div class="detail"><span class="label">Distributor:</span><span class="value" th:text="${batch.distributor}"></span></div>
+        <div class="detail"><span class="label">Arrived to Distributor:</span><span class="value" th:text="${batch.isArrivedToDistributor} ? 'Yes' : 'No'"></span></div>
+
+        <h2>FSSAI 1 Inspection details</h2>
+        <div class="detail"><span class="label">Inspector ID:</span><span class="value" th:text="${batch.inspectionByFSSAI1.inspectorId}"></span></div>
+        <div class="detail"><span class="label">Date of Inspection:</span><span class="value" th:text="${batch.inspectionByFSSAI1.dateOfInspection}"></span></div>
+        <div class="detail"><span class="label">Mode:</span><span class="value" th:text="${batch.inspectionByFSSAI1.modeOfInspection}"></span></div>
+        <div class="detail"><span class="label">Sample Tested:</span><span class="value" th:text="${batch.inspectionByFSSAI1.sampleTested} ? 'Yes' : 'No'"></span></div>
+        <div class="detail"><span class="label">Approval Status:</span><span class="value" th:text="${batch.inspectionByFSSAI1.approvalStatus}"></span></div>
+        <div class="detail"><span class="label">Remarks:</span><span class="value" th:text="${batch.inspectionByFSSAI1.remarks}"></span></div>
+
+        <h3>FSSAI 2 Inspection details</h2>
+        <div class="detail"><span class="label">Inspector ID:</span><span class="value" th:text="${batch.inspectionByFSSAI2.inspectorId}"></span></div>
+        <div class="detail"><span class="label">Date of Inspection:</span><span class="value" th:text="${batch.inspectionByFSSAI2.dateOfInspection}"></span></div>
+        <div class="detail"><span class="label">Mode:</span><span class="value" th:text="${batch.inspectionByFSSAI2.modeOfInspection}"></span></div>
+        <div class="detail"><span class="label">Sample Tested:</span><span class="value" th:text="${batch.inspectionByFSSAI2.sampleTested} ? 'Yes' : 'No'"></span></div>
+        <div class="detail"><span class="label">Approval Status:</span><span class="value" th:text="${batch.inspectionByFSSAI2.approvalStatus}"></span></div>
+        <div class="detail"><span class="label">Remarks:</span><span class="value" th:text="${batch.inspectionByFSSAI2.remarks}"></span></div>
+    </div>
+    <script>
+        function copyUUID() {
+            const uuidSpan = document.getElementById('uuidText');
+            const copyText = uuidSpan.innerText;
+    
+            navigator.clipboard.writeText(copyText).then(() => {
+                const msg = document.getElementById('copyMessage');
+                msg.style.display = 'inline';
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy UUID: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
